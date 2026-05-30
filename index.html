@@ -287,6 +287,9 @@ body {
 .slide-dots {
   display: flex;
   gap: 7px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 .dot {
   width: 5px; height: 5px;
@@ -445,7 +448,7 @@ body {
     </div>
 
     <div style="text-align:center;">
-      <p class="gift-title">Зөвхөн <em>чамдаа</em> зориулсан<br>нэг зүйл байна</p>
+      <p class="gift-title">Зөвхөн <em>чамдаа</em> зориулсан<br>нэгэн зүйл..</p>
     </div>
 
     <div class="orn">
@@ -481,7 +484,6 @@ body {
       <div class="slider-frame" id="sliderFrame"></div>
       <div class="slide-meta">
         <div class="slide-dots" id="dots"></div>
-        <div class="slide-counter" id="counter">1 / 5</div>
       </div>
     </div>
 
@@ -609,9 +611,6 @@ function buildSlider() {
 }
 buildSlider();
 
-function updateCounter() {
-  document.getElementById('counter').textContent = `${cur + 1} / ${images.length}`;
-}
 
 setInterval(() => {
   const imgs = document.querySelectorAll('#sliderFrame img');
@@ -621,7 +620,6 @@ setInterval(() => {
   cur = (cur + 1) % images.length;
   imgs[cur].classList.add('active');
   dotsEl[cur].classList.add('active');
-  updateCounter();
 }, 3500);
 
 /* ══════════════════════════════
