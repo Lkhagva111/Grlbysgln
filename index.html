@@ -1,208 +1,187 @@
-<!DOCTYPE html>
-<html lang="mn">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Төрсөн өдрийн мэнд</title>
+<div id="giftScreen" class="container">
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+    <div class="gift">🎁</div>
 
-body{
-    overflow:hidden;
-    font-family:'Segoe UI',sans-serif;
-    background:linear-gradient(135deg,#0f172a,#1e293b,#312e81);
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:white;
-}
+    <h2>Гэрлээд зориулсан жижигхэн бэлэг</h2>
 
-.container{
-    text-align:center;
-    z-index:10;
-    padding:30px;
-    max-width:700px;
-}
+    <button class="btn" onclick="openGift()">
+        Open Gift
+    </button>
 
-h1{
-    font-size:3rem;
-    margin-bottom:20px;
-    animation:glow 2s infinite alternate;
-}
+</div>
 
-.message{
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(10px);
-    border-radius:20px;
-    padding:30px;
-    line-height:1.8;
-    font-size:1.1rem;
-    animation:fadeIn 3s ease;
-}
+<div id="mainContent" class="container" style="display:none;">
 
-.btn{
-    margin-top:25px;
-    padding:12px 25px;
-    border:none;
-    border-radius:30px;
-    background:white;
-    color:#312e81;
-    font-size:16px;
+    <h1>🎂 Төрсөн Өдрийн Мэнд Гэрлээ 🎂</h1>
+
+    <div class="slider">
+        <img id="slide"
+        src="02fad2fb-8fe0-4f75-960f-3a915ca087da.jpg">
+    </div>
+
+    <div class="message">
+
+        <p>
+        Өнөөдөр чиний өдөр учраас энэ жижигхэн
+        мэндчилгээг бэлдлээ.
+        </p>
+
+        <br>
+
+        <p>
+        Аз жаргал, инээмсэглэл, сайхан дурсамжаар
+        дүүрэн өдөр байгаасай.
+        </p>
+
+    </div>
+
+    <div class="message" style="margin-top:20px;">
+
+        <h2>🎓 Төгсөлтийн Баярын Мэнд</h2>
+
+        <br>
+
+        <p>
+        Олон жилийн хөдөлмөрийн чинь үр дүн болсон
+        энэ сайхан мөчид баяр хүргэе.
+        </p>
+
+        <p>
+        Шинэ зам бүхэн чинь амжилт бүтээлээр
+        дүүрэн байх болтугай.
+        </p>
+
+    </div>
+
+    <button class="btn" onclick="showLetter()">
+        💌 Надаас нэг зүйл...
+    </button>
+
+    <div id="letterBox"
+         class="message"
+         style="display:none;margin-top:20px;">
+    </div>
+
+</div>.gift{
+    font-size:120px;
     cursor:pointer;
-    transition:.3s;
+    animation:pulse 2s infinite;
 }
 
-.btn:hover{
-    transform:scale(1.05);
+.slider img{
+    width:320px;
+    max-width:90%;
+    border-radius:20px;
+    margin-bottom:20px;
+    box-shadow:0 0 30px rgba(255,255,255,.2);
 }
 
-.star{
-    position:absolute;
-    background:white;
-    border-radius:50%;
-    animation:twinkle 4s infinite;
-}
+@keyframes pulse{
 
-.heart{
-    position:absolute;
-    bottom:-50px;
-    color:#ff7aa2;
-    animation:floatUp linear infinite;
-}
-
-@keyframes floatUp{
-    from{
-        transform:translateY(0);
-        opacity:1;
+    0%{
+        transform:scale(1);
     }
-    to{
-        transform:translateY(-110vh);
-        opacity:0;
-    }
-}
 
-@keyframes twinkle{
     50%{
-        opacity:.2;
+        transform:scale(1.1);
     }
-}
 
-@keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:translateY(30px);
+    100%{
+        transform:scale(1);
     }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+
+}const images = [
+
+"02fad2fb-8fe0-4f75-960f-3a915ca087da.jpg",
+
+"e2c0d77a-2dc6-4f16-9395-354a31017448.jpg",
+
+"e540f58b-fbf3-4464-a9a5-37c81061ed2d.jpg",
+
+"e7586a9c-29f7-4c80-af44-aa54019cc9a9.jpg",
+
+"f1a3508f-8d2a-46f8-a116-8d25fcd4a262.jpg"
+
+];
+
+let current = 0;
+
+setInterval(() => {
+
+   const slide =
+   document.getElementById("slide");
+
+   if(!slide) return;
+
+   current++;
+
+   if(current >= images.length)
+      current = 0;
+
+   slide.src = images[current];
+
+},3000);
+
+function openGift(){
+
+   document.getElementById("giftScreen")
+      .style.display = "none";
+
+   document.getElementById("mainContent")
+      .style.display = "block";
+
 }
 
-@keyframes glow{
-    from{
-        text-shadow:0 0 10px #fff;
-    }
-    to{
-        text-shadow:0 0 30px #ff9de2;
-    }
+function showLetter(){
+
+   const box =
+   document.getElementById("letterBox");
+
+   box.style.display = "block";
+
+   const text = `
+
+Сайн уу Гэрлээ.
+
+Өнөөдөр чиний төрсөн өдөр,
+удахгүй төгсөлтийн баяр чинь болох гэж байгаа болохоор
+энэ жижигхэн мэндчилгээг бэлдлээ.
+
+Бид удаан хугацаанд холбоо бариагүй ч
+чамайг сайн сайхан байгаасай гэж хүсдэг хэвээрээ.
+
+Чамайг үргэлж инээмсэглэж,
+өөрийнхөөрөө гэрэлтэж яваасай гэж хүсдэг.
+
+Өнгөрсөн бүхэнд биш,
+харин ирээдүйн сайхан өдрүүдэд чинь
+чин сэтгэлээсээ баяр хүргэе.
+
+Төрсөн өдрийн мэнд.
+Төгсөлтийн баярын мэнд.
+
+— Лхагваа ❤️
+
+`;
+
+   box.innerHTML = "";
+
+   let i = 0;
+
+   function type(){
+
+      if(i < text.length){
+
+         box.innerHTML += text.charAt(i);
+
+         i++;
+
+         setTimeout(type,35);
+
+      }
+
+   }
+
+   type();
+
 }
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<h1>🎂 Төрсөн Өдрийн Мэнд 🎂</h1>
-
-<div class="message">
-<p>
-Сайн уу.
-</p>
-
-<br>
-
-<p>
-Өнөөдөр чиний онцгой өдөр учраас энэ жижигхэн мэндчилгээг бэлдлээ.
-</p>
-
-<p>
-Бид удаан хугацаанд холбоо бариагүй ч хамт өнгөрүүлсэн мөчүүд минь надад үнэ цэнтэй хэвээр байдаг.
-</p>
-
-<p>
-Чамайг үргэлж аз жаргалтай, эрүүл энх, инээмсэглэлээр дүүрэн байгаасай гэж хүсэж байна.
-</p>
-
-<br>
-
-<p>
-✨ Төрсөн өдрийн мэнд хүргэе. ✨
-</p>
-
-<br>
-
-<p>
-— Лхагваням
-</p>
-</div>
-
-<button class="btn" onclick="showWish()">
-💌 Надаас нэг зүйл...
-</button>
-
-</div>
-
-<script>
-
-for(let i=0;i<120;i++){
-    let star=document.createElement("div");
-    star.className="star";
-
-    let size=Math.random()*3;
-
-    star.style.width=size+"px";
-    star.style.height=size+"px";
-    star.style.left=Math.random()*100+"vw";
-    star.style.top=Math.random()*100+"vh";
-
-    document.body.appendChild(star);
-}
-
-function createHeart(){
-    let heart=document.createElement("div");
-    heart.className="heart";
-    heart.innerHTML="❤";
-
-    heart.style.left=Math.random()*100+"vw";
-    heart.style.fontSize=(Math.random()*20+15)+"px";
-    heart.style.animationDuration=(Math.random()*4+4)+"s";
-
-    document.body.appendChild(heart);
-
-    setTimeout(()=>{
-        heart.remove();
-    },8000);
-}
-
-setInterval(createHeart,300);
-
-function showWish(){
-    alert(
-`Төрсөн өдрийн мэнд ❤️
-
-Чамд зөвхөн сайн сайхан бүхнийг хүсье.
-Өнөөдөр инээмсэглэлээр дүүрэн байгаарай.`
-    );
-}
-
-</script>
-
-</body>
-</html>
