@@ -12,15 +12,12 @@
   --blush: #f4d4da;
   --cream: #fdf6f0;
   --deep:  #150b0e;
-  --mid:   #1f1014;
   --gold:  #c9a96e;
-  --gold2: #a0834a;
   --muted: #7a5660;
   --text:  #e8d0d6;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
 
 body {
@@ -31,7 +28,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ── Stars canvas ── */
 #starCanvas {
   position: fixed;
   inset: 0;
@@ -39,7 +35,77 @@ body {
   z-index: 0;
 }
 
-/* ── Screens ── */
+/* ── Аудио тоглуулагч ── */
+#audioPlayer {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(21,11,14,0.85);
+  border: 1px solid rgba(201,105,122,0.25);
+  border-radius: 60px;
+  padding: 10px 20px 10px 14px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  transition: opacity 0.4s;
+}
+#audioPlayer.hidden { opacity: 0; pointer-events: none; }
+
+#playBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--rose2), var(--rose));
+  color: var(--cream);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 16px rgba(201,105,122,0.4);
+}
+#playBtn:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(201,105,122,0.55); }
+
+#audioInfo { line-height: 1.3; }
+#audioTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.88rem;
+  color: var(--blush);
+  letter-spacing: 0.04em;
+}
+#audioSub {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+#volumeSlider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 70px;
+  height: 3px;
+  background: rgba(201,105,122,0.3);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+#volumeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--rose);
+  cursor: pointer;
+}
+
+.vol-icon { font-size: 0.85rem; color: var(--muted); cursor: pointer; user-select: none; }
+
+/* ── Дэлгэц ── */
 .screen {
   position: relative;
   z-index: 1;
@@ -51,9 +117,7 @@ body {
   padding: 60px 24px;
 }
 
-/* ══════════════════════════
-   GIFT SCREEN
-══════════════════════════ */
+/* ─── НЭЭЛТИЙН ДЭЛГЭЦ ─── */
 #giftScreen {
   background:
     radial-gradient(ellipse 70% 60% at 50% 35%, #3a1525 0%, transparent 70%),
@@ -61,14 +125,10 @@ body {
     #0e070a;
 }
 
-/* Ornamental ring */
 .gift-ring {
   position: relative;
-  width: 220px;
-  height: 220px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 220px; height: 220px;
+  display: flex; align-items: center; justify-content: center;
   cursor: pointer;
 }
 .gift-ring::before, .gift-ring::after {
@@ -78,297 +138,198 @@ body {
   border: 1px solid;
   animation: ringPulse 3s ease-in-out infinite;
 }
-.gift-ring::before {
-  inset: 0;
-  border-color: rgba(201,105,122,0.25);
-}
-.gift-ring::after {
-  inset: 12px;
-  border-color: rgba(201,105,122,0.12);
-  animation-delay: .5s;
-}
+.gift-ring::before { inset: 0; border-color: rgba(201,105,122,0.25); }
+.gift-ring::after  { inset: 14px; border-color: rgba(201,105,122,0.1); animation-delay: 0.6s; }
 @keyframes ringPulse {
   0%,100% { transform: scale(1); opacity: 1; }
-  50%      { transform: scale(1.04); opacity: .6; }
+  50%     { transform: scale(1.05); opacity: 0.5; }
 }
 
-.gift-icon {
-  font-size: 88px;
+.gift-emoji {
+  font-size: 86px;
   animation: floatY 4s ease-in-out infinite;
-  filter: drop-shadow(0 0 30px rgba(201,105,122,0.5))
-          drop-shadow(0 0 80px rgba(201,105,122,0.15));
+  filter: drop-shadow(0 0 28px rgba(201,105,122,0.5));
   user-select: none;
 }
 @keyframes floatY {
   0%,100% { transform: translateY(0) rotate(-2deg); }
-  50%      { transform: translateY(-18px) rotate(2deg); }
+  50%     { transform: translateY(-18px) rotate(2deg); }
 }
 
 .gift-title {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(1.5rem, 5vw, 2.2rem);
+  font-size: clamp(1.4rem, 5vw, 2.1rem);
   font-weight: 400;
   color: var(--blush);
   text-align: center;
-  letter-spacing: .03em;
-  line-height: 1.4;
-  margin-top: 8px;
+  letter-spacing: 0.03em;
+  line-height: 1.45;
 }
-.gift-title em {
-  font-style: italic;
-  color: var(--gold);
-}
+.gift-title em { font-style: italic; color: var(--gold); }
 
-.gift-hint {
-  font-size: .95rem;
+.gift-sub {
+  font-size: 0.92rem;
   color: var(--muted);
   font-style: italic;
-  letter-spacing: .06em;
-  margin-top: 4px;
+  letter-spacing: 0.06em;
   text-align: center;
 }
 
-/* Pill button */
 .open-btn {
-  margin-top: 8px;
   padding: 13px 52px;
   border: 1px solid rgba(201,105,122,0.5);
   background: rgba(201,105,122,0.07);
   color: var(--blush);
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.05rem;
-  letter-spacing: .18em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   cursor: pointer;
   border-radius: 60px;
   backdrop-filter: blur(6px);
-  transition: background .3s, border-color .3s, color .3s, transform .2s;
+  transition: background 0.3s, border-color 0.3s, color 0.3s, transform 0.2s;
 }
 .open-btn:hover {
   background: rgba(201,105,122,0.2);
   border-color: var(--rose);
   color: var(--cream);
-  transform: scale(1.03);
+  transform: scale(1.04);
 }
 
-/* Ornament line */
-.orn {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  color: var(--muted);
-  font-size: .8rem;
-  letter-spacing: .2em;
-  text-transform: uppercase;
+.orn-line {
+  display: flex; align-items: center; gap: 14px;
+  width: 200px; color: var(--muted);
+  font-size: 0.75rem; letter-spacing: 0.22em;
 }
-.orn::before, .orn::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(201,105,122,.3), transparent);
-  min-width: 40px;
+.orn-line::before, .orn-line::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(to right, transparent, rgba(201,105,122,0.3), transparent);
 }
 
-/* ══════════════════════════
-   MAIN CONTENT
-══════════════════════════ */
+/* ─── ҮНДСЭН ХЭСЭГ ─── */
 #mainContent {
   display: none;
   background:
-    radial-gradient(ellipse 80% 50% at 50% 0%, #2a1020 0%, transparent 60%),
+    radial-gradient(ellipse 80% 50% at 50% 0%,  #2a1020 0%, transparent 60%),
     radial-gradient(ellipse 60% 40% at 80% 80%, #1a0d18 0%, transparent 50%),
     #0e070a;
 }
 
 .content-wrap {
-  max-width: 580px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 44px;
+  max-width: 580px; width: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 44px;
 }
 
-/* ── Title ── */
 .title-block { text-align: center; }
 
 .eyebrow {
-  font-size: .78rem;
-  letter-spacing: .35em;
+  font-size: 0.76rem;
+  letter-spacing: 0.35em;
   text-transform: uppercase;
   color: var(--gold);
   margin-bottom: 16px;
-  opacity: .85;
+  opacity: 0.85;
 }
 
 .title-block h1 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(2.2rem, 8vw, 3.6rem);
+  font-size: clamp(2.1rem, 8vw, 3.5rem);
   font-weight: 700;
   line-height: 1.1;
   color: var(--blush);
-  letter-spacing: -.01em;
+  letter-spacing: -0.01em;
 }
-.title-block h1 span {
+.title-block h1 .sub {
   display: block;
   font-style: italic;
   font-weight: 400;
-  color: rgba(244,212,218,.6);
-  font-size: .55em;
-  letter-spacing: .08em;
-  margin-top: 10px;
+  color: rgba(244,212,218,0.55);
+  font-size: 0.52em;
+  letter-spacing: 0.09em;
+  margin-top: 12px;
 }
 
-/* ── Divider ── */
 .divider {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
+  display: flex; align-items: center; gap: 10px; width: 100%;
 }
 .divider::before, .divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(201,105,122,.2), transparent);
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(to right, transparent, rgba(201,105,122,0.2), transparent);
 }
-.divider-diamond {
-  width: 5px; height: 5px;
-  background: var(--rose2);
-  transform: rotate(45deg);
-  opacity: .6;
-}
+.diamond     { width: 5px; height: 5px; background: var(--rose2); transform: rotate(45deg); opacity: 0.6; }
+.diamond.sm  { width: 3px; height: 3px; opacity: 0.3; }
 
-/* ── Slider ── */
 .slider-wrap { width: 100%; }
 
 .slider-frame {
-  width: 100%;
-  aspect-ratio: 3/2;
-  max-height: 360px;
-  border-radius: 12px;
-  overflow: hidden;
-  position: relative;
-  box-shadow:
-    0 0 0 1px rgba(201,105,122,0.15),
-    0 30px 80px rgba(0,0,0,0.7),
-    0 0 60px rgba(201,105,122,0.06) inset;
+  width: 100%; aspect-ratio: 3/2; max-height: 360px;
+  border-radius: 14px; overflow: hidden; position: relative;
+  box-shadow: 0 0 0 1px rgba(201,105,122,0.15), 0 30px 80px rgba(0,0,0,0.7);
 }
-
-/* Vignette overlay on photos */
 .slider-frame::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(14,7,10,0.5) 100%);
-  pointer-events: none;
-  z-index: 1;
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(14,7,10,0.45) 100%);
+  pointer-events: none; z-index: 1;
 }
-
 .slider-frame img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 1.2s ease;
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; opacity: 0; transition: opacity 1.2s ease;
 }
 .slider-frame img.active { opacity: 1; }
 
-/* counter pill */
 .slide-meta {
-  display: flex;
-  align-items: center;
+  display: flex; align-items: center;
   justify-content: space-between;
-  margin-top: 14px;
-  padding: 0 2px;
+  margin-top: 14px; padding: 0 2px;
 }
-.slide-dots {
-  display: flex;
-  gap: 7px;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
+.slide-dots  { display: flex; gap: 7px; align-items: center; }
 .dot {
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: var(--muted);
-  transition: background .4s, transform .4s, width .4s;
-  opacity: .5;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--muted); opacity: 0.45;
+  transition: background 0.4s, width 0.4s, border-radius 0.4s, opacity 0.4s;
 }
 .dot.active {
-  background: var(--rose);
-  transform: scale(1.3);
-  opacity: 1;
-  width: 18px;
-  border-radius: 4px;
+  background: var(--rose); width: 18px;
+  border-radius: 4px; opacity: 1;
 }
-.slide-counter {
-  font-size: .78rem;
-  letter-spacing: .1em;
-  color: var(--muted);
-}
+.slide-counter { font-size: 0.76rem; letter-spacing: 0.1em; color: var(--muted); }
 
-/* ── Cards ── */
 .card {
   width: 100%;
   border: 1px solid rgba(201,105,122,0.12);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 30px 34px;
   background: rgba(255,255,255,0.025);
   backdrop-filter: blur(8px);
-  line-height: 2;
-  font-size: 1.1rem;
-  color: var(--text);
-  position: relative;
-  overflow: hidden;
+  line-height: 2; font-size: 1.1rem; color: var(--text);
+  position: relative; overflow: hidden;
 }
 .card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(201,105,122,.3), transparent);
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(to right, transparent, rgba(201,105,122,0.3), transparent);
 }
-
-.card-icon {
-  font-size: 1.6rem;
-  margin-bottom: 12px;
-  display: block;
-}
-
+.card-emoji { font-size: 1.6rem; display: block; margin-bottom: 12px; }
 .card h2 {
   font-family: 'Playfair Display', serif;
-  font-size: 1.25rem;
-  font-weight: 400;
-  font-style: italic;
-  color: var(--gold);
-  margin-bottom: 16px;
+  font-size: 1.22rem; font-weight: 400; font-style: italic;
+  color: var(--gold); margin-bottom: 16px;
 }
 
-/* ── Letter button ── */
 .letter-btn {
-  padding: 16px 52px;
-  border: none;
+  padding: 15px 52px; border: none;
   background: linear-gradient(135deg, var(--rose2) 0%, var(--rose) 100%);
-  color: var(--cream);
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.1rem;
-  letter-spacing: .08em;
-  cursor: pointer;
+  color: var(--cream); font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; letter-spacing: 0.08em; cursor: pointer;
   border-radius: 60px;
   box-shadow: 0 8px 40px rgba(201,105,122,0.3), 0 0 0 1px rgba(201,105,122,0.15);
-  transition: transform .25s, box-shadow .25s;
-  position: relative;
-  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+  position: relative; overflow: hidden;
 }
 .letter-btn::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,.08) 0%, transparent 60%);
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.09) 0%, transparent 55%);
+  pointer-events: none;
 }
 .letter-btn:hover {
   transform: translateY(-3px) scale(1.02);
@@ -376,62 +337,47 @@ body {
 }
 .letter-btn:active { transform: translateY(0) scale(1); }
 
-/* ── Letter box ── */
 #letterBox {
-  display: none;
-  width: 100%;
+  display: none; width: 100%;
   border: 1px solid rgba(201,169,110,0.2);
-  border-radius: 12px;
-  padding: 40px 36px 36px;
+  border-radius: 14px;
+  padding: 44px 36px 36px;
   background: rgba(201,169,110,0.04);
   backdrop-filter: blur(8px);
-  font-size: 1.08rem;
-  line-height: 2.1;
-  color: var(--text);
-  font-style: italic;
-  position: relative;
-  overflow: hidden;
+  font-size: 1.08rem; line-height: 2.1;
+  color: var(--text); font-style: italic;
+  position: relative; overflow: hidden;
 }
 #letterBox::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(201,169,110,.3), transparent);
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(to right, transparent, rgba(201,169,110,0.3), transparent);
 }
-#letterBox .quote-mark {
+.quote-mark {
   font-family: 'Playfair Display', serif;
-  font-size: 5rem;
-  color: rgba(201,169,110,0.1);
-  line-height: 1;
-  position: absolute;
-  top: 10px;
-  left: 26px;
-  font-style: normal;
-  pointer-events: none;
+  font-size: 5rem; color: rgba(201,169,110,0.1);
+  line-height: 1; position: absolute; top: 10px; left: 26px;
+  font-style: normal; pointer-events: none; user-select: none;
 }
 
-/* ── Fade-in ── */
-.fade-in { animation: fadeUp .9s cubic-bezier(.22,1,.36,1) both; }
+.footer-sig {
+  font-size: 1rem; font-style: italic;
+  color: var(--muted); letter-spacing: 0.08em;
+  text-align: center; opacity: 0.7;
+}
+
+.fade-in { animation: fadeUp 0.9s cubic-bezier(0.22,1,0.36,1) both; }
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
+  from { opacity: 0; transform: translateY(28px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Footer ── */
-.footer-sig {
-  font-size: .85rem;
-  color: var(--muted);
-  letter-spacing: .1em;
-  text-align: center;
-  opacity: .5;
-}
-
-/* ── Responsive ── */
 @media (max-width: 480px) {
-  .card { padding: 22px 22px; }
-  #letterBox { padding: 30px 22px 24px; }
-  .open-btn { padding: 12px 40px; }
+  .card       { padding: 22px 20px; }
+  #letterBox  { padding: 34px 20px 24px; }
+  .open-btn   { padding: 12px 40px; }
+  .letter-btn { padding: 14px 36px; }
+  #audioPlayer { bottom: 16px; right: 16px; padding: 8px 14px 8px 10px; }
+  #volumeSlider { width: 50px; }
 }
 </style>
 </head>
@@ -439,164 +385,152 @@ body {
 
 <canvas id="starCanvas"></canvas>
 
-<!-- ════════════════ GIFT SCREEN ════════════════ -->
+<!-- ── АУДИО ── -->
+<audio id="bgAudio" loop preload="auto">
+  <!-- 
+    music.mp3 файлаа repo-д оруулаад энэ мөрийг ашиглана уу:
+    <source src="music.mp3" type="audio/mpeg">
+    
+    Эсвэл доорх Chosic-н Mozart Piano Concerto (CC license) ашиглана:
+  -->
+  <source src="https://www.chosic.com/wp-content/uploads/2020/08/Piano-Concerto-no.-21-in-C-major-K.-467-II.-Andante.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Аудио тоглуулагч UI -->
+<div id="audioPlayer">
+  <button id="playBtn" onclick="toggleAudio()" title="Тоглуулах / Зогсоох">
+    <span id="playIcon">▶</span>
+  </button>
+  <div id="audioInfo">
+    <div id="audioTitle">Piano Concerto No.21</div>
+    <div id="audioSub">Mozart · дэвсгэр аялгуу</div>
+  </div>
+  <span class="vol-icon" onclick="toggleMute()" id="volIcon">🔊</span>
+  <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.4">
+</div>
+
+<!-- ════════════ НЭЭЛТИЙН ДЭЛГЭЦ ════════════ -->
 <div id="giftScreen" class="screen">
-  <div style="display:flex;flex-direction:column;align-items:center;gap:36px;">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:32px;">
 
-    <div class="gift-ring" onclick="openGift()" title="Нээх">
-      <div class="gift-icon">🎁</div>
+    <div class="gift-ring" onclick="openGift()">
+      <div class="gift-emoji">🎁</div>
     </div>
 
-    <div style="text-align:center;">
-      <p class="gift-title">Зөвхөн <em>чамдаа</em> зориулсан<br>юм шүү..</p>
+    <div style="text-align:center;display:flex;flex-direction:column;gap:8px;">
+      <p class="gift-title">Зөвхөн <em>чамд</em> зориулсан<br>нэг зүйл байна</p>
+      <p class="gift-sub">нээж үзнэ үү</p>
     </div>
 
-    <div class="orn">
-      <span>✦</span>
-    </div>
-
+    <div class="orn-line"><span>✦</span></div>
     <button class="open-btn" onclick="openGift()">Нээх</button>
 
   </div>
 </div>
 
-<!-- ════════════════ MAIN CONTENT ════════════════ -->
+<!-- ════════════ ҮНДСЭН ХЭСЭГ ════════════ -->
 <div id="mainContent" class="screen">
   <div class="content-wrap">
 
-    <!-- Title -->
     <div class="title-block fade-in">
-      <p class="eyebrow">✦ &nbsp;         &nbsp; ✦</p>
-      <h1>Төрсөн өдрийн мэнд<br>Гэрлээ
-        <span>Өнөөдрийн энэ өдөр бүхэлдээ чинийх минь юм шүү</span>
+      <p class="eyebrow">✦ &nbsp; онцгой өдрийн мэнд &nbsp; ✦</p>
+      <h1>
+        Төрсөн Өдрийн<br>Мэнд, Гэрлээ
+        <span class="sub">Өнөөдрийн энэ өдөр бүхэлдээ чиних</span>
       </h1>
     </div>
 
-    <!-- Divider -->
-    <div class="divider fade-in" style="animation-delay:.12s">
-      <div class="divider-diamond"></div>
-      <div class="divider-diamond" style="opacity:.3;transform:rotate(45deg) scale(.6)"></div>
-      <div class="divider-diamond"></div>
+    <div class="divider fade-in" style="animation-delay:0.1s">
+      <div class="diamond"></div>
+      <div class="diamond sm"></div>
+      <div class="diamond"></div>
     </div>
 
-    <!-- Slider -->
-    <div class="slider-wrap fade-in" style="animation-delay:.2s">
+    <div class="slider-wrap fade-in" style="animation-delay:0.2s">
       <div class="slider-frame" id="sliderFrame"></div>
       <div class="slide-meta">
         <div class="slide-dots" id="dots"></div>
+        <div class="slide-counter" id="counter">1 / 5</div>
       </div>
     </div>
 
-    <!-- Birthday card -->
-    <div class="card fade-in" style="animation-delay:.3s">
-      <span class="card-icon">🎂</span>
+    <div class="card fade-in" style="animation-delay:0.3s">
+      <span class="card-emoji">🎂</span>
       <p>Өнөөдрийн энэ өдөр бүхэлдээ чиних.</p>
       <br>
-      <p>Өнөөдрийн энэ өдөр бүхэлдээ чинийх минь юм шүү</p>
+      <p>Инээмсэглэл чинь хаана ч тансаг харагдана — тэр нь мартагдашгүй зүйл.</p>
     </div>
 
-  
+    <div class="card fade-in" style="animation-delay:0.4s">
+      <h2>🎓 Төгсөлтийн баярын мэнд</h2>
+      <p>Өнгөрсөн жилүүдийн хичээл зүтгэл чинь энэ мөчид гэрэлтэж байна.</p>
+      <br>
+      <p>Эхлэх цаг болсон — чамд тохирох зам өөрөө нээгдэнэ гэдэгт итгэдэг.</p>
+    </div>
 
-    <!-- Letter button -->
-    <button class="letter-btn fade-in" style="animation-delay:.52s" onclick="showLetter()">
-      💌 &nbsp; 
+    <button class="letter-btn fade-in" style="animation-delay:0.5s" onclick="showLetter()">
+      💌 &nbsp; Надаас нэг зүйл...
     </button>
 
-    <!-- Letter -->
     <div id="letterBox">
       <span class="quote-mark">❝</span>
     </div>
 
-    <p class="footer-sig fade-in" style="animation-delay:.6s">— Лхагваа ❤️</p>
+    <p class="footer-sig fade-in" style="animation-delay:0.6s">— Лхагваа ❤️</p>
+    <div style="height:80px"></div>
 
   </div>
 </div>
 
 <script>
-/* ══════════════════════════════
-   STAR / PARTICLE CANVAS
-══════════════════════════════ */
+/* ══════ ОД + ТООСОНЦОР ══════ */
 const sc = document.getElementById('starCanvas');
 const cx = sc.getContext('2d');
-let W, H, stars = [], floaters = [];
+let W, H, stars = [], orbs = [];
 
-function resize() {
-  W = sc.width  = window.innerWidth;
-  H = sc.height = window.innerHeight;
-}
+function resize() { W = sc.width = window.innerWidth; H = sc.height = window.innerHeight; }
 resize();
 window.addEventListener('resize', resize);
 
-/* Static stars */
-for (let i = 0; i < 120; i++) {
-  stars.push({
-    x: Math.random(),
-    y: Math.random(),
-    r: Math.random() * 1.2 + 0.2,
-    a: Math.random() * .6 + .1,
-    twinkle: Math.random() * Math.PI * 2
-  });
+for (let i = 0; i < 130; i++) {
+  stars.push({ x: Math.random(), y: Math.random(), r: Math.random()*1.1+0.2, base: Math.random()*0.55+0.08, phase: Math.random()*Math.PI*2 });
 }
-
-/* Floating orbs */
-function mkOrb() {
-  return {
-    x: Math.random() * W,
-    y: H + 20,
-    r: Math.random() * 3.5 + 1,
-    speed: Math.random() * .5 + .2,
-    drift: (Math.random() - .5) * .35,
-    alpha: Math.random() * .45 + .1,
-    hue: Math.random() > .5 ? '201,105,122' : '201,169,110'
-  };
+function newOrb() {
+  return { x: Math.random()*W, y: H+20, r: Math.random()*3.2+0.8,
+           vy: Math.random()*0.55+0.2, vx: (Math.random()-0.5)*0.35,
+           alpha: Math.random()*0.4+0.1, rose: Math.random()>0.5 };
 }
-for (let i = 0; i < 55; i++) {
-  const o = mkOrb(); o.y = Math.random() * H;
-  floaters.push(o);
-}
+for (let i = 0; i < 55; i++) { const o = newOrb(); o.y = Math.random()*H; orbs.push(o); }
 
 let tick = 0;
-function draw() {
+(function draw() {
   cx.clearRect(0, 0, W, H);
-  tick += .012;
-
-  /* Stars */
+  tick += 0.013;
   stars.forEach(s => {
-    const a = s.a * (.7 + .3 * Math.sin(tick * 1.5 + s.twinkle));
-    cx.beginPath();
-    cx.arc(s.x * W, s.y * H, s.r, 0, Math.PI * 2);
-    cx.fillStyle = `rgba(255,240,230,${a})`;
-    cx.fill();
+    const a = s.base * (0.65 + 0.35 * Math.sin(tick*1.6 + s.phase));
+    cx.beginPath(); cx.arc(s.x*W, s.y*H, s.r, 0, Math.PI*2);
+    cx.fillStyle = `rgba(255,238,225,${a})`; cx.fill();
   });
-
-  /* Orbs */
-  floaters.forEach((o, i) => {
-    o.y  -= o.speed;
-    o.x  += o.drift;
-    if (o.y < -10) floaters[i] = mkOrb();
-    cx.beginPath();
-    cx.arc(o.x, o.y, o.r, 0, Math.PI * 2);
-    cx.fillStyle = `rgba(${o.hue},${o.alpha})`;
-    cx.fill();
+  orbs.forEach((o, i) => {
+    o.y -= o.vy; o.x += o.vx;
+    if (o.y < -12) orbs[i] = newOrb();
+    const rgb = o.rose ? '201,105,122' : '201,169,110';
+    cx.beginPath(); cx.arc(o.x, o.y, o.r, 0, Math.PI*2);
+    cx.fillStyle = `rgba(${rgb},${o.alpha})`; cx.fill();
   });
-
   requestAnimationFrame(draw);
-}
-draw();
+})();
 
-/* ══════════════════════════════
-   SLIDER
-══════════════════════════════ */
+/* ══════ СЛАЙДЕР ══════ */
 const images = [
-  "02fad2fb-8fe0-4f75-960f-3a915ca087da.jpg",
-  "e2c0d77a-2dc6-4f16-9395-354a31017448.jpg",
-  "e540f58b-fbf3-4464-a9a5-37c81061ed2d.jpg",
-  "e7586a9c-29f7-4c80-af44-aa54019cc9a9.jpg",
-  "f1a3508f-8d2a-46f8-a116-8d25fcd4a262.jpg"
+  '02fad2fb-8fe0-4f75-960f-3a915ca087da.jpg',
+  'e2c0d77a-2dc6-4f16-9395-354a31017448.jpg',
+  'e540f58b-fbf3-4464-a9a5-37c81061ed2d.jpg',
+  'e7586a9c-29f7-4c80-af44-aa54019cc9a9.jpg',
+  'f1a3508f-8d2a-46f8-a116-8d25fcd4a262.jpg'
 ];
 let cur = 0;
-
-function buildSlider() {
+(function buildSlider() {
   const frame = document.getElementById('sliderFrame');
   const dotsEl = document.getElementById('dots');
   images.forEach((src, i) => {
@@ -608,83 +542,132 @@ function buildSlider() {
     d.className = 'dot' + (i === 0 ? ' active' : '');
     dotsEl.appendChild(d);
   });
-}
-buildSlider();
-
+})();
 
 setInterval(() => {
   const imgs = document.querySelectorAll('#sliderFrame img');
-  const dotsEl = document.querySelectorAll('.dot');
-  imgs[cur].classList.remove('active');
-  dotsEl[cur].classList.remove('active');
+  const dots = document.querySelectorAll('.dot');
+  imgs[cur].classList.remove('active'); dots[cur].classList.remove('active');
   cur = (cur + 1) % images.length;
-  imgs[cur].classList.add('active');
-  dotsEl[cur].classList.add('active');
+  imgs[cur].classList.add('active'); dots[cur].classList.add('active');
+  document.getElementById('counter').textContent = `${cur+1} / ${images.length}`;
 }, 3500);
 
-/* ══════════════════════════════
-   GIFT → MAIN transition
-══════════════════════════════ */
+/* ══════ НЭЭЛТ ══════ */
 function openGift() {
   const gs = document.getElementById('giftScreen');
-  gs.style.transition = 'opacity .6s ease';
+  gs.style.transition = 'opacity 0.6s ease';
   gs.style.opacity = '0';
+
+  // Дуу автоматаар эхлэнэ
+  startAudio();
+
   setTimeout(() => {
     gs.style.display = 'none';
     const main = document.getElementById('mainContent');
-    main.style.display = 'flex';
     main.style.opacity = '0';
-    main.style.transition = 'opacity .8s ease';
-    requestAnimationFrame(() => requestAnimationFrame(() => main.style.opacity = '1'));
-  }, 600);
+    main.style.transition = 'opacity 0.85s ease';
+    main.style.display = 'flex';
+    requestAnimationFrame(() => requestAnimationFrame(() => { main.style.opacity = '1'; }));
+  }, 620);
 }
 
-/* ══════════════════════════════
-   LETTER TYPEWRITER
-══════════════════════════════ */
+/* ══════ ЗАХИДАЛ ══════ */
 function showLetter() {
   const box = document.getElementById('letterBox');
   if (box.dataset.shown) return;
   box.dataset.shown = '1';
-  box.style.display = 'block';
-  box.style.animation = 'fadeUp .7s cubic-bezier(.22,1,.36,1) both';
 
-  const lines = [
-    'Сайн уу, Гэрлээ.',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    'Төрсөн өдрийн мэнд.',
-    'Төгсөлтийн баярын мэнд.',
-  ];
+  const text =
+    'Сайн уу, Гэрлээ.\n\n' +
+    'Холдсон хугацаа урт байсан ч\n' +
+    'чиний талаар бодоогүй өдөр байгаагүй.\n\n' +
+    'Чи яг өөрийнхөөрөө гэрэлтэж явахыг —\n' +
+    'тэр инээмсэглэлийг чинь хэн ч авч чадахгүй\n' +
+    'гэдгийг мэддэг.\n\n' +
+    'Өнгөрсөн бидний түүх биш,\n' +
+    'харин чиний ирж буй хамгийн сайхан\n' +
+    'хуудаснууд руу чин сэтгэлээсээ баяр хүргэж байна.\n\n' +
+    'Төрсөн өдрийн мэнд.\n' +
+    'Төгсөлтийн баярын мэнд.';
 
-  const text = lines.join('\n');
-  /* keep the quote mark */
-  box.innerHTML = '<span class="quote-mark">❝</span>';
+  box.innerHTML = '<span class="quote-mark">&#10077;</span>';
   const span = document.createElement('span');
   box.appendChild(span);
+  box.style.display = 'block';
+  box.style.animation = 'fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) both';
 
   let i = 0;
   function type() {
-    if (i < text.length) {
-      const ch = text.charAt(i);
-      span.innerHTML += ch === '\n' ? '<br>' : ch;
-      i++;
-      setTimeout(type, ch === '\n' ? 80 : 28);
-    }
+    if (i >= text.length) return;
+    const ch = text[i++];
+    span.innerHTML += ch === '\n' ? '<br>' : ch;
+    setTimeout(type, ch === '\n' ? 90 : 26);
   }
   type();
-  setTimeout(() => box.scrollIntoView({ behavior: 'smooth', block: 'center' }), 150);
+  setTimeout(() => box.scrollIntoView({ behavior: 'smooth', block: 'center' }), 200);
 }
+
+/* ══════ АУДИО УДИРДЛАГА ══════ */
+const audio     = document.getElementById('bgAudio');
+const playBtn   = document.getElementById('playBtn');
+const playIcon  = document.getElementById('playIcon');
+const volSlider = document.getElementById('volumeSlider');
+const volIcon   = document.getElementById('volIcon');
+const player    = document.getElementById('audioPlayer');
+
+audio.volume = 0.4;
+let playing = false;
+let muted = false;
+
+function startAudio() {
+  audio.play().then(() => {
+    playing = true;
+    playIcon.textContent = '⏸';
+    // Fade in
+    audio.volume = 0;
+    let v = 0;
+    const fadeIn = setInterval(() => {
+      v = Math.min(v + 0.02, parseFloat(volSlider.value));
+      audio.volume = v;
+      if (v >= parseFloat(volSlider.value)) clearInterval(fadeIn);
+    }, 60);
+  }).catch(() => {});
+}
+
+function toggleAudio() {
+  if (playing) {
+    audio.pause();
+    playing = false;
+    playIcon.textContent = '▶';
+  } else {
+    audio.play().then(() => {
+      playing = true;
+      playIcon.textContent = '⏸';
+    }).catch(() => {});
+  }
+}
+
+function toggleMute() {
+  muted = !muted;
+  audio.muted = muted;
+  volIcon.textContent = muted ? '🔇' : '🔊';
+}
+
+volSlider.addEventListener('input', () => {
+  audio.volume = parseFloat(volSlider.value);
+  if (parseFloat(volSlider.value) === 0) {
+    muted = true; audio.muted = true; volIcon.textContent = '🔇';
+  } else if (muted) {
+    muted = false; audio.muted = false; volIcon.textContent = '🔊';
+  }
+});
+
+// Хэрэглэгч хуудаснаас гарахад зогсоох
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && playing) { audio.volume = 0; }
+  else if (!document.hidden && playing) { audio.volume = parseFloat(volSlider.value); }
+});
 </script>
 </body>
 </html>
