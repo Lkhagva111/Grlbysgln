@@ -386,28 +386,9 @@ body {
 <canvas id="starCanvas"></canvas>
 
 <!-- ── АУДИО ── -->
-<audio id="bgAudio" loop preload="auto">
-  <!-- 
-    music.mp3 файлаа repo-д оруулаад энэ мөрийг ашиглана уу:
-    <source src="music.mp3" type="audio/mpeg">
-    
-    Эсвэл доорх Chosic-н Mozart Piano Concerto (CC license) ашиглана:
-  -->
-  <source src="https://www.chosic.com/wp-content/uploads/2020/08/Piano-Concerto-no.-21-in-C-major-K.-467-II.-Andante.mp3" type="audio/mpeg">
-</audio>
+
 
 <!-- Аудио тоглуулагч UI -->
-<div id="audioPlayer">
-  <button id="playBtn" onclick="toggleAudio()" title="Тоглуулах / Зогсоох">
-    <span id="playIcon">▶</span>
-  </button>
-  <div id="audioInfo">
-    <div id="audioTitle">Piano Concerto No.21</div>
-    <div id="audioSub">Mozart · дэвсгэр аялгуу</div>
-  </div>
-  <span class="vol-icon" onclick="toggleMute()" id="volIcon">🔊</span>
-  <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.4">
-</div>
 
 <!-- ════════════ НЭЭЛТИЙН ДЭЛГЭЦ ════════════ -->
 <div id="giftScreen" class="screen">
