@@ -1,0 +1,210 @@
+```html
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Төрсөн өдрийн мэнд</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    overflow:hidden;
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#0f172a,#1e293b,#312e81);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+}
+
+.container{
+    text-align:center;
+    z-index:10;
+    padding:30px;
+    max-width:700px;
+}
+
+h1{
+    font-size:3rem;
+    margin-bottom:20px;
+    animation:glow 2s infinite alternate;
+}
+
+.message{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+    border-radius:20px;
+    padding:30px;
+    line-height:1.8;
+    font-size:1.1rem;
+    animation:fadeIn 3s ease;
+}
+
+.btn{
+    margin-top:25px;
+    padding:12px 25px;
+    border:none;
+    border-radius:30px;
+    background:white;
+    color:#312e81;
+    font-size:16px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:scale(1.05);
+}
+
+.star{
+    position:absolute;
+    background:white;
+    border-radius:50%;
+    animation:twinkle 4s infinite;
+}
+
+.heart{
+    position:absolute;
+    bottom:-50px;
+    color:#ff7aa2;
+    animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+    from{
+        transform:translateY(0);
+        opacity:1;
+    }
+    to{
+        transform:translateY(-110vh);
+        opacity:0;
+    }
+}
+
+@keyframes twinkle{
+    50%{
+        opacity:.2;
+    }
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes glow{
+    from{
+        text-shadow:0 0 10px #fff;
+    }
+    to{
+        text-shadow:0 0 30px #ff9de2;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎂 Төрсөн Өдрийн Мэнд 🎂</h1>
+
+<div class="message">
+<p>
+Сайн уу.
+</p>
+
+<br>
+
+<p>
+Өнөөдөр чиний онцгой өдөр учраас энэ жижигхэн мэндчилгээг бэлдлээ.
+</p>
+
+<p>
+Бид удаан хугацаанд холбоо бариагүй ч хамт өнгөрүүлсэн мөчүүд минь надад үнэ цэнтэй хэвээр байдаг.
+</p>
+
+<p>
+Чамайг үргэлж аз жаргалтай, эрүүл энх, инээмсэглэлээр дүүрэн байгаасай гэж хүсэж байна.
+</p>
+
+<br>
+
+<p>
+✨ Төрсөн өдрийн мэнд хүргэе. ✨
+</p>
+
+<br>
+
+<p>
+— [Таны нэр]
+</p>
+</div>
+
+<button class="btn" onclick="showWish()">
+💌 Надаас нэг зүйл...
+</button>
+
+</div>
+
+<script>
+
+for(let i=0;i<120;i++){
+    let star=document.createElement("div");
+    star.className="star";
+
+    let size=Math.random()*3;
+
+    star.style.width=size+"px";
+    star.style.height=size+"px";
+    star.style.left=Math.random()*100+"vw";
+    star.style.top=Math.random()*100+"vh";
+
+    document.body.appendChild(star);
+}
+
+function createHeart(){
+    let heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="❤";
+
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(Math.random()*20+15)+"px";
+    heart.style.animationDuration=(Math.random()*4+4)+"s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{
+        heart.remove();
+    },8000);
+}
+
+setInterval(createHeart,300);
+
+function showWish(){
+    alert(
+`Төрсөн өдрийн мэнд ❤️
+
+Чамд зөвхөн сайн сайхан бүхнийг хүсье.
+Өнөөдөр инээмсэглэлээр дүүрэн байгаарай.`
+    );
+}
+
+</script>
+
+</body>
+</html>
+```
